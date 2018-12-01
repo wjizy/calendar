@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+      .calendar_tableClass{
+        background-image: linear-gradient(-180deg, #589CFA 0%, #3469EC 100%);
+        height: 350px;
+      }
+      .calendar_tdClass{
+         text-align: center;
+      }
+      .calendar_point{
+        background: #6ADAD9;
+        border-radius: 5px;
+        width: 10px;
+        height: 10px;
+      }
+  </style>
+</head>
+<body>
+  <div id="calendar">
+  </div>
+  <button id="pre" onclick="pre()">上个月</button>
+  <span id="nowdate"></span>
+  <button id="next" onclick="next()">下个月</button>
+</body>
+<script src="calendar.js"></script>
+<script type="text/javascript">
+  
+  function render(dayArray){
+    console.log(dayArray)
+          tableClass =  'calendar_tableClass'
+          trClass = 'calendar_tdClass'
+          tdClass = ''
+          var str ="<table class='"+tableClass+"'>"
+          str +="<tr class='"+trClass+"'><td>日</td><td>周一</td><td>周二</td><td>周三</td><td>周四</td><td>周五</td><td>周六</td></tr>"
+          for(var i=0;i<dayArray.length;i+=7){
+            str +="<tr class='"+trClass+"'><td class='"+tdClass+"'>"+dayArray[i]+"</td><td class='"+tdClass+"'>"+dayArray[i+1]+"</td><td class='"+tdClass+"'>"+dayArray[i+2]+"</td><td class='"+tdClass+"'>"+dayArray[i+3]+"</td><td class='"+tdClass+"'>"+dayArray[i+4]+"</td><td class='"+tdClass+"'>"+dayArray[i+5]+"</td><td class='"+tdClass+"'>"+dayArray[i+6]+"</td></tr>"
+          }
+          str +="</table>"
+          return str;
+  }
+  var cal = new wj_calendar('calendar')
+  function nowDate()
+  {
+    document.getElementById('nowdate').innerHTML = cal.year+'-'+(parseInt(cal.month)< 9 ? "0"+cal.month : cal.month)
+  }
+  function pre(){
+    cal.lastMonth(function(dayArray){
+        return render(dayArray)
+    })
+    nowDate()
+  }
+  function next(){
+    cal.nextMonth(function(dayArray){
+        return render(dayArray)
+    })
+    nowDate()
+  }
+  window.onload=function(){
+    cal.nowMonth(function(dayArray){
+        return render(dayArray)
+    })
+    nowDate()
+  }
+</script>
+</html>
