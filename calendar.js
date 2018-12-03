@@ -1,10 +1,11 @@
-function wj_calendar(id, showHeader, showTail){
+function wj_calendar(id){
+    this.debug = true;
     this.thirty = [4,6,9,11] //30天月份
     this.thirtyOne = [1,3,5,7,8,10,12] //31天月份
     this.header ='header'
-    this.showHeader =  showHeader || 1 //是否补全上个月份天数
+    this.showHeader =  1 //是否补全上个月份天数
     this.tail = 'tail'
-    this.showTail=  showTail || 1 //是否补全下个月份天数
+    this.showTail=  1 //是否补全下个月份天数
     this.year = (new Date()).getFullYear() //当前年份
     this.month = (new Date()).getMonth()+1 //当前月份
     this.id = id //日历ID
@@ -13,6 +14,7 @@ function wj_calendar(id, showHeader, showTail){
     this.middle = []
     this.footer=[]
     this.all=[]
+    this.allData = []
     this.index=[]
   }
 
@@ -149,17 +151,25 @@ function wj_calendar(id, showHeader, showTail){
       }
       footer = check(footer,this.showTail)
 
-      all = (top.concat(middle)).concat(footer)
+      this.allData = (top.concat(middle)).concat(footer)
       this.all = (this.top.concat(this.middle)).concat(this.footer)
-           console.log(this.all);
-      return all
+
+     if(this.debug){
+        console.log('********页面日期 start ********')
+        console.log(this.allData)
+        console.log('********页面日期 end ********')
+
+        console.log('********页面年-月-日 start ********')
+        console.log(this.all)
+        console.log('********页面年-月-日 end ********')
+     }
+      return this.allData
   }
 
   //往模板中塞数据，模板自定义
   wj_calendar.prototype.template = function(dayArray,list,func){
-      this.containsAll(this.all, list)
       this.data = func(dayArray,list);
-      console.log(this.index)
+      this.containsAll(this.all, list)
   }
 
   //渲染
@@ -211,7 +221,15 @@ function wj_calendar(id, showHeader, showTail){
   //取下标
   wj_calendar.prototype.containsAll = function(arrays, objs){
      for (var i = 0; i < objs.length; i++) {
-       this.index.push(this.contains(arrays,objs[i]))
+       var idx = this.contains(arrays,objs[i])
+       if(this.allData[idx] != ''){
+         this.index.push(idx)
+       }
+     }
+     if(this.debug){
+        console.log('********日程下标 start ********')
+        console.log(this.index)
+        console.log('********日程下标 end ********')
      }
    }
 

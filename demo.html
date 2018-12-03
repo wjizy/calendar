@@ -29,7 +29,6 @@
 <script type="text/javascript">
   
   function render(dayArray){
-    console.log(dayArray)
           tableClass =  'calendar_tableClass'
           trClass = 'calendar_tdClass'
           tdClass = ''
@@ -42,6 +41,9 @@
           return str;
   }
   var cal = new wj_calendar('calendar')
+  cal.debug = false;
+  cal.showHeader = false;
+  cal.showTail = false;
   function nowDate()
   {
     document.getElementById('nowdate').innerHTML = cal.year+'-'+(parseInt(cal.month)< 9 ? "0"+cal.month : cal.month)
