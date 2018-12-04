@@ -18,6 +18,14 @@ function wj_calendar(id){
     this.index=[]
   }
 
+  wj_calendar.prototype.setEmpty = function(){
+    this.top = []
+    this.middle = []
+    this.footer=[]
+    this.all=[]
+    this.allData = []
+    this.index=[]
+  }
   //二月天数
   wj_calendar.prototype.february = function(year){
     if (((year % 4)==0) && ((year % 100)!=0) || ((year % 400)==0)) {
@@ -168,8 +176,8 @@ function wj_calendar(id){
 
   //往模板中塞数据，模板自定义
   wj_calendar.prototype.template = function(dayArray,list,func){
-      this.data = func(dayArray,list);
       this.containsAll(this.all, list)
+      this.data = func(dayArray,this.index);
   }
 
   //渲染
@@ -182,6 +190,7 @@ function wj_calendar(id){
        nowYear = nowYear || this.year
        nowMonth = nowMonth || this.month
        list = list || []
+       this.setEmpty()
        var y=0,m=0
        var last= this.last(nowYear, nowMonth)
        y = last.y,m=last.m
@@ -197,6 +206,7 @@ function wj_calendar(id){
        nowYear = nowYear || this.year
        nowMonth = nowMonth || this.month
        list = list || []
+        this.setEmpty()
        var y=0,m=0
        var next = this.next(nowYear, nowMonth)
        y=next.y,m=next.m
